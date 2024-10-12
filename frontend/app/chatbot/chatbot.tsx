@@ -16,7 +16,7 @@ export default function Chatbot() {
           Any Questions for Your Financial Benefit?
         </h1>
         <p className="text-xl text-gray-600 text-center">
-          401k, ESPP, Roth amd more.
+          401k, ESPP, Roth and more.
         </p>
 
         <Card className="bg-white shadow-sm">
