@@ -94,6 +94,21 @@ export default function OnboardingWizard() {
     }
   };
 
+  const handleComplete = () => {
+    // TODO: Call form submission API
+    if (validateStep()) {
+      // Submit form data
+      console.log(formData);
+      setStep(1);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        companyId: "",
+        benefitDocument: null,
+      });
+    }
+  };
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const renderStep = () => {
@@ -242,13 +257,16 @@ export default function OnboardingWizard() {
         {step < 3 ? (
           <Button onClick={handleNext}>Next</Button>
         ) : (
-          <Button className="bg-green-600 hover:bg-green-700">
+          <Button
+            className="bg-green-600 hover:bg-green-700"
+            onClick={handleComplete}
+          >
             <CheckCircle2 className="mr-2 h-4 w-4" /> Complete
           </Button>
         )}
       </CardFooter>
       <div className="px-6 pb-4">
-        <div className="flex justify-content">
+        <div className="flex justify-center items-center h-full">
           {[1, 2, 3].map((s) => (
             <div
               key={s}
