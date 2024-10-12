@@ -12,8 +12,11 @@ def home(request):
 @parser_classes([FormParser, MultiPartParser])
 @permission_classes([AllowAny])
 def upload_file(request):
-    file = request.data['file']
-    a = request.FILES
-    print(a)
-    print(file)
+    first_name = request.data.get("firstName")
+    last_name = request.data.get("lastName")
+    email = request.data.get("email")
+    company_id = request.data.get("companyId")
+    file = request.data.get("benefitDocument")
+    print(first_name, last_name, email, company_id, file)
     return Response({"status": "success"})
+
