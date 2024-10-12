@@ -22,7 +22,8 @@ import {
 } from "@/components/ui/select";
 import { CheckCircle2, Upload, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 type FormData = {
   firstName: string;
@@ -51,7 +52,7 @@ export default function OnboardingWizard() {
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  // const router = useRouter();
+  const router = useRouter();
 
 
   const updateFormData = (
@@ -124,7 +125,10 @@ const handleComplete = async () => {
       throw new Error("Network response was not ok");
     }
     const result = await response.json();
-    console.log("here=====", result);
+    
+    router.push(`/video_player`);
+    // redirect(`/localhost:3000/video_player`); 
+
   } catch (err) {
     setError((err as Error).message);
   } finally {
