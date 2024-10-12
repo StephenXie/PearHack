@@ -5,13 +5,15 @@ import MuxPlayer from "@mux/mux-player-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // You would replace this with your actual Mux playback ID
 const MUX_PLAYBACK_ID = "DS00Spx1CV902MCtPj5WknGlR102V5HFkDe";
 
 export default function TutorialVideoPlayer() {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-
+  
+  const router = useRouter();
   // This would be replaced with your actual tutorial video data
   const tutorialVideos = [
     { title: "Your Benefit Preview", playbackId: MUX_PLAYBACK_ID },
@@ -19,15 +21,11 @@ export default function TutorialVideoPlayer() {
   ];
 
   const handlePrevious = () => {
-    setCurrentVideoIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : prevIndex
-    );
+    router.push("/onboarding");
   };
 
   const handleNext = () => {
-    setCurrentVideoIndex((prevIndex) =>
-      prevIndex < tutorialVideos.length - 1 ? prevIndex + 1 : prevIndex
-    );
+    router.push("/");
   };
 
   return (
