@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { CheckCircle2, Upload, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+// import { useRouter } from "next/router";
 
 type FormData = {
   firstName: string;
@@ -49,11 +50,15 @@ export default function OnboardingWizard() {
     benefitDocument: null,
   });
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  // const router = useRouter();
+
 
   const updateFormData = (
     field: keyof FormData,
     value: string | File | null
   ) => {
+    console.log("here 0 field", field, "value", value);
     setFormData((prev) => ({ ...prev, [field]: value }));
     setError(null);
   };
@@ -94,21 +99,40 @@ export default function OnboardingWizard() {
     }
   };
 
-  const handleComplete = () => {
-    // TODO: Call form submission API
-    if (validateStep()) {
-      // Submit form data
-      console.log(formData);
-      setStep(1);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        companyId: "",
-        benefitDocument: null,
-      });
+const handleComplete = async () => {
+  setLoading(true);
+  setError(null);
+  const formDataToSend = new FormData();
+  Object.entries(formData).forEach(([key, value]) => {
+    if (key === "benefitDocument" && value instanceof File) {
+      formDataToSend.append(key, value);
+    } else if (typeof value === "string") {
+      formDataToSend.append(key, value);
     }
-  };
+  });
+
+  try {
+    const response = await fetch(
+      "https://deep-stable-gorilla.ngrok-free.app/api/upload_file",
+      {
+        method: "POST",
+        body: formDataToSend,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const result = await response.json();
+    console.log("here=====", result);
+  } catch (err) {
+    setError((err as Error).message);
+  } finally {
+    // should navigate to the next page or show a success message
+    setStep(3);
+  }
+};
+
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const renderStep = () => {
