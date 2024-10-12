@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # apps
-
+    'api',
     # third party apps
     'rest_framework',
     'rest_framework.authtoken',
@@ -103,7 +103,7 @@ SIMPLE_JWT = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-AUTH_USER_MODEL = "user.CustomUserModel"
+# AUTH_USER_MODEL = "user.CustomUserModel"
 
 REST_AUTH_SERIALIZERS = {
     "USER_DETAILS_SERIALIZER": "user.serializers.CustomUserModelSerializer",
