@@ -33,11 +33,11 @@ type FormData = {
 };
 
 const companies = [
-  { id: "1", name: "Acme Corp" },
-  { id: "2", name: "Globex Corporation" },
-  { id: "3", name: "Soylent Corp" },
-  { id: "4", name: "Initech" },
-  { id: "5", name: "Umbrella Corporation" },
+  { id: "1", name: "Google" },
+  { id: "2", name: "Facebook" },
+  { id: "3", name: "Apple" },
+  { id: "4", name: "Netflix" },
+  { id: "5", name: "Amazon" },
 ];
 
 export default function OnboardingWizard() {
