@@ -11,6 +11,8 @@ load_dotenv()
 
 
 def save_file(company_id, file):
+    if company_id:
+        return
     file_path = os.path.join(os.getcwd(), f"{company_id}.pdf")
     with open(file_path, "wb") as f:
         f.write(file.read())
