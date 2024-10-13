@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 interface Question {
   Question: string;
@@ -69,6 +70,8 @@ export default function MultipleChoice() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [color, setColor] = useState("green");
+ 
+  const router = useRouter();
   useEffect(() => {
     let isMounted = true; // track if the component is mounted
 
@@ -124,6 +127,7 @@ export default function MultipleChoice() {
       setShowExplanation(false);
     } else {
       setQuizCompleted(true);
+      router.push("/chatbot");
     }
   };
 
