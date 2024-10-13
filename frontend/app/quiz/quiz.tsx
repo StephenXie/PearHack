@@ -111,6 +111,7 @@ export default function MultipleChoice() {
     const correctAnswer = questions[currentQuestion].Correct_Answer;
     console.log(selectedAnswer === correctAnswer)
     if (selectedAnswer === correctAnswer) {
+      alert("Correct Answer")
       setScore((prev) => prev + 1);
       setColor("green");
     } else {
