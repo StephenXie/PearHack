@@ -3,6 +3,10 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser, FileUploadParser
 from rest_framework.permissions import AllowAny
 from .api import handle_file, make_questions
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.document_loaders import PyPDFLoader
+import os 
+import voyageai
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def home(request):
@@ -51,3 +55,29 @@ def generate_mcq(request):
     company_id = request.GET.get("companyId", "Google")
     questions = make_questions(company_id)
     return Response({"questions": questions})
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def chat(request):
+    query = request.data.get("query")
+    company_id = request.data.get("companyId")
+    loader = PyPDFLoader(os.path.join(os.getcwd(), f"{company_id}.pdf"))
+    pages = loader.load_and_split()
+    vo = voyageai.Client()
+    documents = []
+    for page in pages:
+        documents.append(page.page_content)
+    llm = ChatOpenAI(
+        model="gpt-4o",
+        temperature=0.5,
+        max_tokens=1024,
+        timeout=None,
+        max_retries=2,
+    )
+    prompt = query
+    details = vo.rerank(query, documents, model="rerank-2-lite", top_k=3).results
+    prompt += "\n Here are some relevant details about the company's employee benefits: \n"
+    for detail in details:
+        prompt += detail.document + "\n"
+    result = llm.invoke(prompt)
+    return Response({"response": result.content})
