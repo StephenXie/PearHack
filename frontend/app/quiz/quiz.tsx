@@ -27,12 +27,9 @@ export default function MultipleChoice() {
     const fetchQuestions = async () => {
       try {
         const res = await fetch(
-          `https://deep-stable-gorilla.ngrok-free.app/api/generate_mcq?companyId=Google`,
+          `http://127.0.0.1:8000/api/generate_mcq?companyId=Google`,
           {
             method: "GET",
-            headers: new Headers({
-              "ngrok-skip-browser-warning": "69420",
-            }),
           }
         );
         const response = await res.json();
@@ -151,7 +148,7 @@ export default function MultipleChoice() {
           ></div>
         </div>
         <h2 className="text-2xl font-bold mb-4 text-center">
-          {currentQuestionData.Question}
+          {currentQuestionData?.Question}
         </h2>
         <div className="space-y-3">
           {["Option_1", "Option_2", "Option_3", "Option_4"].map(
