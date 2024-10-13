@@ -34,11 +34,10 @@ export default function LandingPage() {
                 <div className="flex flex-col items-center space-y-4 text-center">
                   <div className="space-y-2">
                     <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                      Understand Your Benefits with AI
+                      Understand Your Employee Financial Benefits
                     </h1>
                     <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                      FENE.ai simplifies employee benefits, making them easy to
-                      understand and maximize.
+                      FENE.ai simplifies employee financial benefits understanding, making sure you are on top of your benefits package.
                     </p>
                   </div>
                   <div className="w-full max-w-sm space-y-2">
@@ -76,14 +75,14 @@ export default function LandingPage() {
                         Interactive Learning
                       </h3>
                       <p className="text-gray-500 dark:text-gray-400">
-                        Engage with our AI to deepen your understanding.
+                        Engage with our AI generated learning module to deepen your understanding.
                       </p>
                     </CardContent>
                   </Card>
                   <Card className="transform transition-all hover:scale-105">
                     <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
                       <Zap className="h-12 w-12 text-primary" />
-                      <h3 className="text-2xl font-bold">Real-time Updates</h3>
+                      <h3 className="text-2xl font-bold">Real time Q&A with AI Agent</h3>
                       <p className="text-gray-500 dark:text-gray-400">
                         Stay informed about changes to your benefits.
                       </p>
