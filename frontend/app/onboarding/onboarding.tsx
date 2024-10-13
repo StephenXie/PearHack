@@ -114,7 +114,7 @@ const handleComplete = async () => {
 
   try {
     const response = await fetch(
-      "https://deep-stable-gorilla.ngrok-free.app/api/upload_file",
+      "http://127.0.0.1:8000/api/upload_file",
       {
         method: "POST",
         body: formDataToSend,
