@@ -5,9 +5,16 @@ import { PaperclipIcon, ArrowUpIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { useRouter } from "next/navigation"; // Import useRouter
+
 
 export default function Chatbot() {
   const [question, setQuestion] = useState("");
+  const router = useRouter(); // Initialize useRouter
+
+  const handleNavigation = (route: string) => {
+    router.push(route);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
@@ -21,7 +28,6 @@ export default function Chatbot() {
 
         <Card className="bg-white shadow-sm">
           <CardContent className="p-4">
-
             <div className="relative">
               <Input
                 type="text"
@@ -43,20 +49,23 @@ export default function Chatbot() {
 
           <CardFooter className="flex items-center space-x-2 p-4">
             <div className="flex flex-wrap justify-center gap-4">
-              {[
-                "Upload your payslip for a optimized allocation plan",
-                "Rewatch the tutorial video on your financial benefits",
-                "Check out the articles you need to know",
-              ].map((suggestion) => (
-                <Button
-                  key={suggestion}
-                  variant="outline"
-                  className="text-gray-700"
-                >
-                  {suggestion}
-                  <ArrowUpIcon className="w-4 h-4 ml-2" />
-                </Button>
-              ))}
+              <Button
+                variant="outline"
+                className="text-gray-700"
+                onClick={() => handleNavigation("/video_player")} // Navigate to tutorial page
+              >
+                Rewatch the tutorial video on your financial benefits
+                <ArrowUpIcon className="w-4 h-4 ml-2" />
+              </Button>
+
+              <Button
+                variant="outline"
+                className="text-gray-700"
+                onClick={() => handleNavigation("/")} // Navigate to articles page
+              >
+                Check out the articles you need to know
+                <ArrowUpIcon className="w-4 h-4 ml-2" />
+              </Button>
             </div>
           </CardFooter>
         </Card>
