@@ -38,7 +38,7 @@ export default function ChatBot() {
       // Update chat history
       setChatHistory((prevHistory) => [
         ...prevHistory,
-        { question, answer: result.answer }, // Store question and answer
+        { question, answer: result?.response}, // Store question and answer
       ]);
       setIsChatActive(true); // Switch to chat view
       setQuestion(""); // Clear input
