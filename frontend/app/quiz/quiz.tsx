@@ -14,36 +14,90 @@ interface Question {
 }
 
 export default function MultipleChoice() {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([
+        {
+            "Question": "What is the 401(k) Matching Program offered by Google?",
+            "Option_1": "Google matches 100% of employee contributions up to $10,000 annually.",
+            "Option_2": "Google matches 50% of employee contributions up to $19,500 annually.",
+            "Option_3": "Google matches 100% of employee contributions up to $3,000 or 50% up to the IRS limit annually, whichever is greater.",
+            "Option_4": "Google matches 50% of employee contributions with no annual limit.",
+            "Correct_Answer": "3",
+            "Explanation": "Google's 401(k) Matching Program offers a match of 100% of employee contributions up to $3,000 or 50% of contributions up to the IRS limit per calendar year, whichever amount is greater. This means that Google will fully match the first $3,000 of your contributions, and beyond that, they match half of your contributions up to the IRS limit. Every dollar of the match is fully vested."
+        },
+        {
+            "Question": "What is the annual cap for Google's Student Loan Repayment Plan?",
+            "Option_1": "$1,500",
+            "Option_2": "$2,500",
+            "Option_3": "$5,000",
+            "Option_4": "$10,000",
+            "Correct_Answer": "2",
+            "Explanation": "Google's Student Loan Repayment Plan matches 100% of your student loan contributions up to a $2,500 annual cap. This means Google will contribute an amount equal to what you pay, capped at $2,500 per year, towards the principal of your student loan."
+        },
+       {
+            "Question": "What is a Mega Backdoor Roth IRA, and how does it benefit Google employees?",
+            "Option_1": "A retirement savings option allowing employees to contribute after-tax dollars to a Roth IRA, potentially exceeding normal contribution limits.",
+            "Option_2": "A special Google program that matches employee donations to charity up to $10,000.",
+            "Option_3": "An insurance plan that covers personal accidents up to 3 times the annual salary.",
+            "Option_4": "A tuition reimbursement program for job-related courses.",
+            "Correct_Answer": "1",
+            "Explanation": "The Mega Backdoor Roth IRA is a strategy that allows employees to contribute after-tax dollars to a Roth IRA, potentially exceeding the normal contribution limits. This can be beneficial for high-income earners at Google who want to maximize their retirement savings."
+        },
+        {
+            "Question": "What is the annual contribution made by Google to an employee's Health Savings Account (HSA) for individual coverage?",
+            "Option_1": "$500",
+            "Option_2": "$1,000",
+            "Option_3": "$1,500",
+            "Option_4": "$2,000",
+            "Correct_Answer": "2",
+            "Explanation": "Google contributes $1,000 per year to an employee's Health Savings Account (HSA) for individual coverage. This is a benefit provided to help employees manage their healthcare expenses."
+        },
+        {
+            "Question": "What is the amount provided as a Relocation Bonus for Google employees?",
+            "Option_1": "$5,000",
+            "Option_2": "$10,000",
+            "Option_3": "$15,000",
+            "Option_4": "$20,000",
+            "Correct_Answer": "2",
+            "Explanation": "Google offers a Relocation Bonus of $10,000 to its employees. This is a one-time payment provided to assist employees with moving expenses when relocating for work."
+        }
+  ]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true; // track if the component is mounted
+
     const fetchQuestions = async () => {
       try {
         const res = await fetch(
-          `https://deep-stable-gorilla.ngrok-free.app/api/generate_mcq?companyId=Google`,
-          {
-            method: "GET",
-            headers: new Headers({
-              "ngrok-skip-browser-warning": "69420",
-            }),
-          }
+          `http://127.0.0.1:8000/api/generate_mcq?companyId=Google`
         );
         const response = await res.json();
-        setQuestions(response?.question || []);
-        setIsLoading(false);
+        
+        if (isMounted) {
+          // setIsLoading(false);
+          // setQuestions(response?.questions || []);
+          const qs = console.log(questions);
+        }
       } catch (err) {
-        setError("Failed to load questions. Please try again later.");
-        setIsLoading(false);
+        if (isMounted) {
+          // setError("Failed to load questions. Please try again later.");
+          // setIsLoading(false);
+        }
       }
     };
+
     fetchQuestions();
+
+    // Cleanup function to avoid setting state on an unmounted component
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleAnswerClick = (answer: string) => {
@@ -151,7 +205,7 @@ export default function MultipleChoice() {
           ></div>
         </div>
         <h2 className="text-2xl font-bold mb-4 text-center">
-          {currentQuestionData.Question}
+          {currentQuestionData?.Question}
         </h2>
         <div className="space-y-3">
           {["Option_1", "Option_2", "Option_3", "Option_4"].map(
@@ -167,7 +221,7 @@ export default function MultipleChoice() {
                 onClick={() => handleAnswerClick(option)}
                 disabled={showExplanation}
               >
-                {currentQuestionData[option as keyof Question]}
+                {currentQuestionData?.[option as keyof Question] ?? "Option not available"}
               </Button>
             )
           )}
