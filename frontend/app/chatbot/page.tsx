@@ -1,5 +1,6 @@
 
-import Chatbot from "./chatbot";
+// import Chatbot from "./chatbot";
+import Chatbot from "./chathistory";
 
 export default function ChatbotPage() {
   return (

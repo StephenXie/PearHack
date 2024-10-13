@@ -11,10 +11,35 @@ import { useRouter } from "next/navigation"; // Import useRouter
 export default function Chatbot() {
   const [question, setQuestion] = useState("");
   const router = useRouter(); // Initialize useRouter
+  const [error, setError] = useState<string | null>(null);
 
   const handleNavigation = (route: string) => {
     router.push(route);
   };
+
+  const askQuestion = async () => {
+    // Add logic to send the question to the backend
+    console.log(question);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/chat", {
+        method: "POST",
+        body: question,
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+
+      router.push(`/video_player`);
+      // redirect(`/localhost:3000/video_player`);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      // should navigate to the next page or show a success message
+      router.push('/')
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
@@ -40,7 +65,7 @@ export default function Chatbot() {
                 <Button size="icon" variant="ghost">
                   <PaperclipIcon className="w-4 h-4" />
                 </Button>
-                <Button size="icon" variant="ghost" className="bg-green-50">
+                <Button size="icon" variant="ghost" className="bg-green-50" onClick={askQuestion}>
                   <ArrowUpIcon className="w-4 h-4 text-green-600" />
                 </Button>
               </div>
