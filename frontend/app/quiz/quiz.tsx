@@ -223,7 +223,7 @@ export default function MultipleChoice() {
               <Button
                 key={index}
                 variant="outline"
-                className={`w-full justify-start text-left h-auto py-3 px-4 ${
+                className={`w-full justify-start text-left h-auto overflow-hidden py-3 px-4 ${
                   selectedAnswer === option
                     ? `border-gray-500 bg-gray-50`
                     : ""
